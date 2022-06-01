@@ -21,6 +21,10 @@ locations_df <- locations %>%
   st_drop_geometry() %>% 
   select(-Description) %>% 
   separate(col = Name, into = c("name", "delete")) %>% 
-  select(-delete)
+  select(-delete) %>% 
+  mutate(name = case_when(
+    name == "Ambewe" ~ "Namacha",
+    TRUE ~ name
+  ))
 
 write_csv(locations_df, file = "data/intermediate/maize-mill-locations.csv")
