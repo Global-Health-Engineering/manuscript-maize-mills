@@ -1,0 +1,372 @@
+---
+title: "Manuscript Maize Mills"
+subtitle: "Exploratory Data Analysis"
+format: 
+    html: default
+    docx: default
+    markdown_github: default
+editor: source
+execute: 
+  echo: false
+  warning: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(readr)
+library(dplyr)
+library(forcats)
+library(lubridate)
+library(ggplot2)
+library(janitor)
+library(tidyr)
+library(waffle) # devtools::install_github("hrbrmstr/waffle")
+```
+
+```{r}
+
+# location_vec <- c("")
+
+dat_in <- read_csv(file = here::here("data/intermediate/malawi-maize-mills-air-quality.csv")) %>%   
+  # move to data cleaning process
+  mutate(date = as_date(date_time)) %>% 
+  mutate(hour = hour(date_time)) %>% 
+  # remove values above 1000, as they could not plausibly be this high
+  filter(value <= 1000) 
+
+```
+
+```{r}
+
+# define US EPA levels for air quality
+usepa_level_fct <- c("Good", 
+                     "Moderate", 
+                     "Unhealthy for Sensitive Groups", 
+                     "Unhealthy", 
+                     "Very Unhealthy", 
+                     "Hazardous")
+
+# define WHO 2021 levels
+
+who_2021_level_fct <- c("Interim target 4", 
+                        "Interim target 3", 
+                        "Interim target 2", 
+                        "Interim target 1", 
+                        "Greater interim target 1")
+
+
+# Data transformation
+
+dat_air_quality <- dat_in %>% 
+  
+  mutate(air_quality = case_when(
+    indicator == "pm2.5" & value <= 12 ~ "Good",
+    indicator == "pm2.5" & value > 12 & indicator == "pm2.5" & value <= 35.4 ~ "Moderate",
+    indicator == "pm2.5" & value > 35.4 & indicator == "pm2.5" & value <= 55.4 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm2.5" & value > 55.4 & indicator == "pm2.5" & value <= 150.4 ~ "Unhealthy",
+    indicator == "pm2.5" & value > 150.4 & indicator == "pm2.5" & value <= 250.4 ~ "Very Unhealthy",
+    indicator == "pm2.5" & value > 250.4 ~ "Hazardous",
+    indicator == "pm10" & value <= 54.9 ~ "Good",
+    indicator == "pm10" & value > 54.9 & indicator == "pm10" & value <= 154.9 ~ "Moderate",
+    indicator == "pm10" & value > 154.9 & indicator == "pm10" & value <= 254.9 ~ "Unhealthy for Sensitive Groups",
+    indicator == "pm10" & value > 254.9 & indicator == "pm10" & value <= 354.9 ~ "Unhealthy",
+    indicator == "pm10" & value > 354.9 & indicator == "pm10" & value <= 424.9 ~ "Very Unhealthy",
+    indicator == "pm10" & value > 424.9 ~ "Hazardous",
+  )) %>% 
+  mutate(air_quality =
+           fct_relevel(air_quality, 
+                       levels = usepa_level_fct)) %>% 
+  mutate(air_quality_who_annual = case_when(
+    indicator == "pm2.5" & value <= 10 ~ "Interim target 4",
+    indicator == "pm2.5" & value > 10 & indicator == "pm2.5" & value <= 15 ~ "Interim target 3",
+    indicator == "pm2.5" & value > 15 & indicator == "pm2.5" & value <= 25 ~ "Interim target 2",
+    indicator == "pm2.5" & value > 25 & indicator == "pm2.5" & value <= 35 ~ "Interim target 1", 
+    indicator == "pm2.5" & value > 35 ~ "Greater interim target 1",
+    indicator == "pm10" & value <= 20 ~ "Interim target 4",
+    indicator == "pm10" & value > 20 & indicator == "pm10" & value <= 30 ~ "Interim target 3",
+    indicator == "pm10" & value > 30 & indicator == "pm10" & value <= 50 ~ "Interim target 2",
+    indicator == "pm10" & value > 50 & indicator == "pm10" & value <= 70 ~ "Interim target 1",
+    indicator == "pm10" & value > 70 ~ "Greater interim target 1",
+  )) %>% 
+  mutate(air_quality_who_annual  =
+           fct_relevel(air_quality_who_annual,   
+                       levels = who_2021_level_fct)) 
+```
+
+```{r}
+# Data transformation - summary statistics
+
+dat_in_sum_day <- dat_in %>% 
+  group_by(date, location, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+dat_in_sum_day_night <- dat_in %>% 
+  mutate(daytime = case_when(
+    hour >= 6 & hour < 18 ~ "day_time",
+    TRUE ~ "night_time"
+    #hour >= 18 | hour < 6 ~ "night_time"
+  )) %>% 
+  group_by(date, location, daytime, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+
+dat_in_sum_hour <- dat_in %>% 
+  group_by(date, hour, location, indicator) %>% 
+  summarise(min = min(value),
+            median = median(value),
+            mean = mean(value),
+            sd = sd(value),
+            max = max(value))
+
+# Data transformation - air quality summary US EPA
+
+dat_air_quality_sum <- dat_air_quality %>% 
+  group_by(location, indicator, air_quality) %>% 
+  count(air_quality) %>% 
+  mutate(exposure_mins = n * 5) %>% 
+  mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
+  select(-n)
+
+# Data transformation - air quality summary US EPA
+
+dat_air_quality_sum_who_2021 <- dat_air_quality %>% 
+  group_by(location, indicator, air_quality_who_annual) %>% 
+  count(air_quality_who_annual) %>% 
+  mutate(exposure_mins = n * 5) %>% 
+  mutate(exposure_hrs = round(exposure_mins / 60)) %>% 
+  select(-n)
+
+
+
+```
+
+# Data Exploration
+
+TODO List:
+
+- Analyse peaks and exposure times based on the assumption that these are the only times that the machines are actually running and someone is inside the room
+
+## Plot: Overview
+
+```{r}
+
+dat_in %>% 
+  ggplot(aes(x = date_time, y = value)) +
+  geom_line(alpha = 0.5) +
+  labs(title = "Maize Mill Air Quality",
+       subtitle = "PM2.5 and PM10 measurements in 5-min intervals at three locations") +
+  ylab(bquote(uq/m^3)) +
+  facet_grid(location~indicator) +
+  theme_bw() + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) 
+
+
+```
+
+## Plot: Daily 24-hour average by date 
+
+```{r}
+
+dat_in_sum_day %>% 
+  ggplot(aes(x = date, y = mean, group = indicator, color = indicator)) +
+  geom_point(size = 0.8) +
+  geom_line() +
+  labs(title = "Maize Mill Air Quality",
+       subtitle = "Average 24-hour PM2.5 and PM10 concentrations at eight locations",
+       x = NULL) +
+  ylab(bquote(uq/m^3)) +
+  facet_wrap(~location, ncol = 1) + 
+  #scale_y_continuous(limits = c(0, 400)) +
+  scale_color_brewer(type = "qual", palette = 2) + 
+  theme_bw() + 
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank()) 
+
+```
+
+## Plot: Day time vs night time averages (6-18, 18-6) 
+
+```{r}
+
+dat_in_sum_day_night %>% 
+  ggplot(aes(x = date, y = mean, group = indicator, fill = daytime)) +
+  geom_col(position = position_dodge2()) +
+  facet_grid(location ~ indicator, scales = "free") +
+  scale_fill_brewer(type = "qual", palette = 2)
+
+ggsave(here::here("figs/plotX-maize-mills-daytime-vs-nighttime.png"))
+
+
+```
+
+## Plot: Exposure in hours in categories of hazard
+
+### Percent (US EPA)
+
+```{r}
+
+dat_air_quality_sum %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
+
+  ggplot(aes(x = air_quality, y = exposure_percent, fill = indicator)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_brewer(type = "qual", palette = 2) + 
+  facet_grid(location ~ indicator) +
+  coord_flip() +
+  labs(title = "Air quality at three locations at a Malawi Maize Mill",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [percent]",
+       x = NULL,
+       fill = "Indicator") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+
+```
+
+### Percent - [@worldhealthorganization2021who]
+
+```{r}
+dat_air_quality_sum_who_2021 %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
+
+  ggplot(aes(x = air_quality_who_annual, y = exposure_percent, fill = indicator)) +
+  geom_col(position = position_dodge()) +
+  scale_fill_brewer(type = "qual", palette = 2) + 
+  facet_grid(location ~ indicator) +
+  coord_flip() +
+  labs(title = "Air quality at three locations at a Malawi Maize Mill",
+       subtitle = "Hours of exposure against PM2.5 and PM10 categorised by USEPA standards",
+       y = "Exposure [percent]",
+       x = NULL,
+       fill = "Indicator") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank())
+
+```
+
+### Waffle plot - [@worldhealthorganization2021who] (used)
+
+```{r}
+
+dat_air_quality_sum_who_2021 %>% 
+  #filter(indicator == "pm2.5") %>% 
+  group_by(location, indicator) %>% 
+  mutate(exposure_percent = round(exposure_hrs / sum(exposure_hrs) * 100, 0)) %>% 
+  
+  # manipulate data for purpose of plot
+  
+  mutate(exposure_percent = case_when(
+    location == "husk" 
+    & indicator == "pm10"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent - 1,
+    
+    location == "window" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent - 1,
+    
+    location == "top" 
+    & indicator == "pm2.5"
+    & air_quality_who_annual == "Interim target 4" ~ exposure_percent + 1,
+    
+    TRUE ~ exposure_percent
+  )) %>% 
+
+ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
+  geom_waffle(color ="white", size = 0.5, n_rows = 5) +
+  coord_equal() +
+  labs(title = "Air quality at three locations at a Malawi Maize Mill",
+       subtitle = "Percent of time exposed per target category: 1 square = 1 percent",
+       fill = "WHO 2021 targets (annual)") +
+  scale_fill_brewer(type = "div", palette = "RdYlBu", direction = -1) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
+  facet_grid(location ~ indicator, switch = "y") +
+  
+  #facet_wrap(~location, ncol = 2) +
+  theme_minimal() +
+  # help from: https://stackoverflow.com/questions/34749636/left-justify-text-from-multi-line-facet-labels
+  theme(strip.text.x = element_text(hjust = 0),
+        strip.text.y = element_text(vjust = 0))
+
+ggsave(here::here("figs/plotX-maize-mills-who-2021-categories.png"))
+
+
+```
+
+## Table: Peaks over the limit for hazardous ([@worldhealthorganization2021who])
+
+- Peak for PM2.5: > 35 Greater interim target 1, Annual
+- Peak for PM10: > 70 Greater interim target 1, Annual
+- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+
+```{r}
+
+observations_location <- dat_in %>% 
+  select(date_time, location) %>% 
+  unique() %>% 
+  count(location)
+
+no_peaks_who <- dat_in %>% 
+  mutate(peaks = case_when(
+    indicator == "pm2.5" & value >  35 ~ TRUE,
+    indicator == "pm10" & value >  70 ~ TRUE,
+    TRUE ~ FALSE
+  )) %>% 
+  mutate(date = as_date(date_time)) %>% 
+  group_by(indicator, location) %>% 
+  summarise(
+    peaks = sum(peaks)
+  ) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = indicator, values_from = peaks) 
+
+observations_location %>% 
+  left_join(no_peaks_who) %>% 
+  knitr::kable()
+
+```
+
+## Peaks over 424.9 for pm10 (limit for hazardous (US EPA))
+
+```{r}
+
+dat_in %>% 
+  filter(indicator == "pm10") %>% 
+  filter(value > 424.9) %>% 
+  group_by(date, hour,) %>% 
+  summarise(
+    mean_pm10 = mean(value)
+  ) %>% 
+  knitr::kable(digits = 0)
+
+```
+
+## Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))
+
+```{r}
+
+dat_in %>% 
+  filter(indicator == "pm2.5") %>% 
+  filter(value > 250.4) %>% 
+  group_by(date, hour,) %>% 
+  summarise(
+    mean_pm25 = mean(value)
+  ) %>% 
+  knitr::kable(digits = 0)
+
+```

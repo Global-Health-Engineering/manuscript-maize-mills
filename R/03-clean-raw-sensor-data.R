@@ -73,6 +73,5 @@ dat_clean <- bind_rows(raw_data_list) %>%
   pivot_longer(cols = pm2.5:pm10, names_to = "indicator", values_to = "value") %>% 
   mutate(unit = "uq_m3")
   
-
 write_csv(x = dat_clean, file = "data/intermediate/malawi-maize-mills-air-quality.csv")
 
