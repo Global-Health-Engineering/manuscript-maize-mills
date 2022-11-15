@@ -30,6 +30,7 @@ dat_in <- read_csv(file = here::here("data/intermediate/malawi-maize-mills-air-q
   # move to data cleaning process
   mutate(date = as_date(date_time)) %>% 
   mutate(hour = hour(date_time)) %>% 
+  mutate(minute = minute(date_time)) %>% 
   # remove values above 1000, as they could not plausibly be this high
   filter(value <= 1000) 
 
@@ -345,13 +346,7 @@ observations_location %>%
 
 dat_in %>% 
   filter(indicator == "pm10") %>% 
-  filter(value > 424.9) %>% 
-  group_by(date, hour,) %>% 
-  summarise(
-    mean_pm10 = mean(value)
-  ) %>% 
-  knitr::kable(digits = 0)
-
+  filter(value > 424.9) 
 ```
 
 ## Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))
@@ -360,11 +355,6 @@ dat_in %>%
 
 dat_in %>% 
   filter(indicator == "pm2.5") %>% 
-  filter(value > 250.4) %>% 
-  group_by(date, hour,) %>% 
-  summarise(
-    mean_pm25 = mean(value)
-  ) %>% 
-  knitr::kable(digits = 0)
+  filter(value > 250.4) 
 
 ```
