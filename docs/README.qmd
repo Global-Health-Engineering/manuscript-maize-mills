@@ -1,16 +1,14 @@
 ---
 title: "Manuscript Maize Mills"
 subtitle: "Exploratory Data Analysis"
-format: 
-    html: default
-    docx: default
-    markdown_github: default
+format: gfm
 editor: source
 execute: 
   echo: false
   warning: false
 editor_options: 
   chunk_output_type: console
+bibliography: man-qech_air-quality.bib
 ---
 
 ```{r}
@@ -153,7 +151,7 @@ dat_air_quality_sum_who_2021 <- dat_air_quality %>%
 
 TODO List:
 
-- Analyse peaks and exposure times based on the assumption that these are the only times that the machines are actually running and someone is inside the room
+-   Analyse peaks and exposure times based on the assumption that these are the only times that the machines are actually running and someone is inside the room
 
 ## Plot: Overview
 
@@ -173,7 +171,7 @@ dat_in %>%
 
 ```
 
-## Plot: Daily 24-hour average by date 
+## Plot: Daily 24-hour average by date
 
 ```{r}
 
@@ -194,7 +192,7 @@ dat_in_sum_day %>%
 
 ```
 
-## Plot: Day time vs night time averages (6-18, 18-6) 
+## Plot: Day time vs night time averages (6-18, 18-6)
 
 ```{r}
 
@@ -236,7 +234,7 @@ dat_air_quality_sum %>%
 
 ```
 
-### Percent - [@worldhealthorganization2021who]
+### Percent - WHO 2021
 
 ```{r}
 dat_air_quality_sum_who_2021 %>% 
@@ -259,7 +257,7 @@ dat_air_quality_sum_who_2021 %>%
 
 ```
 
-### Waffle plot - [@worldhealthorganization2021who] (used)
+### Waffle plot - WHO 2021 (used)
 
 ```{r}
 
@@ -310,9 +308,9 @@ ggsave(here::here("figs/plotX-maize-mills-who-2021-categories.png"))
 
 ## Table: Peaks over the limit for hazardous ([@worldhealthorganization2021who])
 
-- Peak for PM2.5: > 35 Greater interim target 1, Annual
-- Peak for PM10: > 70 Greater interim target 1, Annual
-- Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+-   Peak for PM2.5: \> 35 Greater interim target 1, Annual
+-   Peak for PM10: \> 70 Greater interim target 1, Annual
+-   Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
 
 ```{r}
 
