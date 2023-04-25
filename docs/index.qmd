@@ -555,14 +555,8 @@ plot_window_pm10 <- dat_in %>%
 **Top**
 
 ```{r}
-plot_top_pm10
-```
-
-
-```{r}
 #| column: screen
 #| fig-height: 10
-#| eval: FALSE
 
 plotly::ggplotly(plot_top_pm10)
 ```
@@ -572,26 +566,16 @@ plotly::ggplotly(plot_top_pm10)
 ```{r}
 #| column: screen
 #| fig-height: 10
-#| eval: FALSE
 
 plotly::ggplotly(plot_husk_pm10)
 ```
-
-```{r}
-plot_husk_pm10
-```
-
 
 **Window**
 
 ```{r}
 #| column: screen
 #| fig-height: 10
-#| eval: FALSE
-plotly::ggplotly(plot_window_pm10)
-```
 
-```{r}
-plot_window_pm10
+plotly::ggplotly(plot_window_pm10)
 ```
 
