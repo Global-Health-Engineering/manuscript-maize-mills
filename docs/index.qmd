@@ -2,7 +2,7 @@
 title: "Manuscript Maize Mills"
 subtitle: "Exploratory Data Analysis"
 format: 
-  html:
+  docx: 
     toc: true
 editor: source
 execute: 
@@ -33,7 +33,10 @@ dat_in <- read_csv(file = here::here("data/intermediate/malawi-maize-mills-air-q
   mutate(hour = hour(date_time)) %>% 
   mutate(minute = minute(date_time)) %>% 
   # remove values above 1000, as they could not plausibly be this high
-  filter(value <= 1000) 
+  filter(value <= 1000) |> 
+  # remove values of 7th April. Sensor generated random noise due to setup
+  filter(date > "2021-04-07") |> 
+  arrange(date_time)
 
 ```
 
@@ -151,15 +154,11 @@ dat_air_quality_sum_who_2021 <- dat_air_quality %>%
 
 # Data Exploration
 
-TODO List:
-
--   Analyse peaks and exposure times based on the assumption that these are the only times that the machines are actually running and someone is inside the room
-
 ## Plot: Overview
 
 ```{r}
 
-dat_in %>% 
+plot_overview <- dat_in %>% 
   ggplot(aes(x = date_time, y = value)) +
   geom_line(alpha = 0.5) +
   labs(title = "Maize Mill Air Quality",
@@ -218,7 +217,7 @@ ggsave(here::here("figs/plotX-maize-mills-daytime-vs-nighttime.png"))
 dat_air_quality_sum %>% 
   group_by(location, indicator) %>% 
   mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
-
+  
   ggplot(aes(x = air_quality, y = exposure_percent, fill = indicator)) +
   geom_col(position = position_dodge()) +
   scale_fill_brewer(type = "qual", palette = 2) + 
@@ -242,7 +241,7 @@ dat_air_quality_sum %>%
 dat_air_quality_sum_who_2021 %>% 
   group_by(location, indicator) %>% 
   mutate(exposure_percent = exposure_hrs / sum(exposure_hrs) * 100) %>% 
-
+  
   ggplot(aes(x = air_quality_who_annual, y = exposure_percent, fill = indicator)) +
   geom_col(position = position_dodge()) +
   scale_fill_brewer(type = "qual", palette = 2) + 
@@ -285,8 +284,8 @@ dat_air_quality_sum_who_2021 %>%
     
     TRUE ~ exposure_percent
   )) %>% 
-
-ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
+  
+  ggplot(aes(fill = air_quality_who_annual, values = exposure_percent)) +
   geom_waffle(color ="white", size = 0.5, n_rows = 5) +
   coord_equal() +
   labs(title = "Air quality at three locations at a Malawi Maize Mill",
@@ -352,67 +351,189 @@ observations_location %>%
 ```
 
 
+## Plot: Overview (as reference)
+
 ```{r}
+plot_overview
 ```
 
-## Peaks over 424.9 for pm10 (limit for hazardous (US EPA))
+
+## Detail into peak (event) 
+
+**Issues**
+
+- measurements for husk, top, and window not taken at the exact same time
+- events might be at different times
+- separate analysis for each indicator and location
+
+**Method for pm10 and pm2.5 and location top**
+
+- Each time the pm values are above 100, we assume an "event" happens
+- An "event" means that the mill is switched on
+- We number events in increasing order
+- Then, we take the mean of the values that are above 100 for each event 
+- The number of minutes of exposure are calculated by multiplying each data point with 6 minutes
+- this is because measurements are taken every 6 minutes
+
+### pm10 location top
+
+
+```{r}
+identify_event <- function(data, indicator_value, location_value, cut_value) {
+  
+  data |> 
+    filter(indicator == indicator_value) |> 
+    filter(location == location_value) |> 
+    
+    mutate(value = case_when(
+      value <= cut_value ~ 0,
+      TRUE ~ value
+    )) |> 
+    # identify events when value is not 0 and categorize with yes 
+    mutate(event = case_when(value != 0 ~ "yes",
+                             TRUE ~ "no")) |> 
+    # add increasing number for each event
+    mutate(event_no = cumsum(
+      event == "yes" & lag(event, default = "no") != "yes")
+    ) |> 
+    # return only the events
+    filter(event == "yes") 
+}
+```
 
 ```{r}
 
-peaks_hazardous_pm10_date_hour <- dat_in %>% 
-  filter(indicator == "pm10") %>% 
-  filter(value > 424.9) |> 
-  select(date, hour) |> 
-  distinct()
+dat_in_pm10_top_events <- identify_event(data = dat_in, 
+                                         indicator_value = "pm10", 
+                                         location_value = "top", 
+                                         cut_value = 100)
 
 ```
 
-### Table with hour and minute for peaks
-
 ```{r}
-dat_in %>% 
-  filter(indicator == "pm10") %>% 
-  filter(value > 424.9) |> 
-  DT::datatable()
+# calculating mean exposure and minutes exposed for each event and date
+event_exposure_summary <- function(data) {
+  data |> 
+    group_by(date, event_no, location, indicator) |> 
+    summarise(
+      minutes = n() * 6,
+      mean_exposure = mean(value)
+    ) 
+}
 ```
 
-### Interactive Plots
+```{r}
+tbl_pm10_top_event_exposure <- event_exposure_summary(dat_in_pm10_top_events) 
+```
+
+
+```{r}
+tbl_pm10_top_event_exposure |> 
+  knitr::kable(digits = 0)
+
+```
+
+```{r}
+tbl_exposure_inline_pm10_top <- tbl_pm10_top_event_exposure |> 
+  group_by(location, indicator) |> 
+  summarise(median_minutes = median(minutes),
+            median_exposure = median(mean_exposure))
+```
+
+The median event time (milling process) for location  `r tbl_exposure_inline_pm10_top$location` and indicator `r tbl_exposure_inline_pm10_top$indicator` is `r tbl_exposure_inline_pm10_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm10_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm10_top$indicator` at hazardous concentration for half and hour during every milling process.
+
+```{r}
+tbl_exposure_inline_pm10_top  |>
+  knitr::kable(digits = 0)
+```
+
+### pm25 location top
 
 ```{r}
 
-location = "top"
-indicator = "pm10"
+dat_in_pm25_top_events <- identify_event(data = dat_in, 
+                                         indicator_value = "pm2.5", 
+                                         location_value = "top", 
+                                         cut_value = 100)
+
+```
+
+```{r}
+# calculating mean exposure and minutes exposed for each event and date
+event_exposure_summary <- function(data) {
+  data |> 
+    group_by(date, event_no, location, indicator) |> 
+    summarise(
+      minutes = n() * 6,
+      mean_exposure = mean(value)
+    ) 
+}
+```
+
+```{r}
+tbl_pm25_top_event_exposure <- event_exposure_summary(dat_in_pm25_top_events) 
+```
+
+
+```{r}
+tbl_pm25_top_event_exposure |> 
+  knitr::kable(digits = 0)
+
+```
+
+```{r}
+tbl_exposure_inline_pm25_top <- tbl_pm25_top_event_exposure |> 
+  group_by(location, indicator) |> 
+  summarise(median_minutes = median(minutes),
+            median_exposure = median(mean_exposure))
+```
+
+The median event time (milling process) for location  `r tbl_exposure_inline_pm25_top$location` and indicator `r tbl_exposure_inline_pm25_top$indicator` is `r tbl_exposure_inline_pm25_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm25_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm25_top$indicator` at hazardous concentration for half and hour during every milling process.
+
+```{r}
+tbl_exposure_inline_pm10_top  |>
+  knitr::kable(digits = 0)
+```
+
+# Appendix
+
+## Interactive Plots
+
+**only viewable in HTML version**
+
+```{r}
+
+indicator_value = "pm10"
 
 plot_top_pm10 <- dat_in %>% 
-  filter(location == location & indicator == indicator) |> 
+  filter(location == "top") |> 
+  filter(indicator == indicator_value) |> 
   ggplot(aes(x = date_time, y = value)) +
   geom_line(alpha = 0.5) +
   geom_point() +
-  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  labs(title = paste0("Location: ", "top", ". ", "Indicator: ", indicator_value)) +
   scale_x_datetime(date_breaks = "1 hour") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
-location = "husk"
-indicator = "pm10"
+indicator_value = "pm10"
 
 plot_husk_pm10 <- dat_in %>% 
-  filter(location == location & indicator == indicator) |> 
+  filter(location == "husk" & indicator == indicator_value) |> 
   ggplot(aes(x = date_time, y = value)) +
   geom_line(alpha = 0.5) +
   geom_point() +
-  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  labs(title = paste0("Location: ", "husk", ". ", "Indicator: ", indicator_value)) +
   scale_x_datetime(date_breaks = "1 hour") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
 location = "window"
-indicator = "pm10"
 
 plot_window_pm10 <- dat_in %>% 
-  filter(location == location & indicator == indicator) |> 
+  filter(location == "window" & indicator == indicator_value) |> 
   ggplot(aes(x = date_time, y = value)) +
   geom_line(alpha = 0.5) +
   geom_point() +
-  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  labs(title = paste0("Location: ", "window", ". ", "Indicator: ", indicator_value)) +
   scale_x_datetime(date_breaks = "1 hour") +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
 
@@ -421,8 +542,15 @@ plot_window_pm10 <- dat_in %>%
 **Top**
 
 ```{r}
+plot_top_pm10
+```
+
+
+```{r}
 #| column: screen
 #| fig-height: 10
+#| eval: FALSE
+
 plotly::ggplotly(plot_top_pm10)
 ```
 
@@ -431,23 +559,26 @@ plotly::ggplotly(plot_top_pm10)
 ```{r}
 #| column: screen
 #| fig-height: 10
+#| eval: FALSE
+
 plotly::ggplotly(plot_husk_pm10)
 ```
+
+```{r}
+plot_husk_pm10
+```
+
 
 **Window**
 
 ```{r}
 #| column: screen
 #| fig-height: 10
+#| eval: FALSE
 plotly::ggplotly(plot_window_pm10)
 ```
 
-## Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))
-
 ```{r}
-
-dat_in %>% 
-  filter(indicator == "pm2.5") %>% 
-  filter(value > 250.4) 
-
+plot_window_pm10
 ```
+
