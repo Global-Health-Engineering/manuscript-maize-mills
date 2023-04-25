@@ -1,14 +1,15 @@
 ---
 title: "Manuscript Maize Mills"
 subtitle: "Exploratory Data Analysis"
-format: gfm
+format: 
+  html:
+    toc: true
 editor: source
 execute: 
   echo: false
   warning: false
 editor_options: 
   chunk_output_type: console
-bibliography: man-qech_air-quality.bib
 ---
 
 ```{r}
@@ -307,14 +308,20 @@ ggsave(here::here("figs/plotX-maize-mills-who-2021-categories.png"))
 
 ```
 
-## Table: Peaks over the limit for hazardous ([@worldhealthorganization2021who])
+# Analysis of peaks
+
+Questions:
+
+- What does air quality say about who this effects? Vulnerability
+- Does the built environment matter? Windows, Operators
+
+## Table: Peaks over the limit for hazardous ([worldhealthorganization2021who])
 
 -   Peak for PM2.5: \> 35 Greater interim target 1, Annual
 -   Peak for PM10: \> 70 Greater interim target 1, Annual
--   Column peaks counts the number of data points (5 minute intervals between them) above these two limits over all days
+-   @tbl-peaks  counts the number of data points (5 minute intervals between them) above these two limits over all days (column `n` shows the total number of data points)
 
 ```{r}
-
 observations_location <- dat_in %>% 
   select(date_time, location) %>% 
   unique() %>% 
@@ -332,21 +339,104 @@ no_peaks_who <- dat_in %>%
     peaks = sum(peaks)
   ) %>% 
   ungroup() %>% 
-  pivot_wider(names_from = indicator, values_from = peaks) 
+  pivot_wider(names_from = indicator, values_from = peaks)
+```
 
+
+```{r}
+#| label: tbl-peaks
+#| tbl-cap: "Number of peaks as defined by WHO 2021 target 1 for pm2.5 and pm10"
 observations_location %>% 
   left_join(no_peaks_who) %>% 
   knitr::kable()
+```
 
+
+```{r}
 ```
 
 ## Peaks over 424.9 for pm10 (limit for hazardous (US EPA))
 
 ```{r}
 
+peaks_hazardous_pm10_date_hour <- dat_in %>% 
+  filter(indicator == "pm10") %>% 
+  filter(value > 424.9) |> 
+  select(date, hour) |> 
+  distinct()
+
+```
+
+### Table with hour and minute for peaks
+
+```{r}
 dat_in %>% 
   filter(indicator == "pm10") %>% 
-  filter(value > 424.9) 
+  filter(value > 424.9) |> 
+  DT::datatable()
+```
+
+### Interactive Plots
+
+```{r}
+
+location = "top"
+indicator = "pm10"
+
+plot_top_pm10 <- dat_in %>% 
+  filter(location == location & indicator == indicator) |> 
+  ggplot(aes(x = date_time, y = value)) +
+  geom_line(alpha = 0.5) +
+  geom_point() +
+  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  scale_x_datetime(date_breaks = "1 hour") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+location = "husk"
+indicator = "pm10"
+
+plot_husk_pm10 <- dat_in %>% 
+  filter(location == location & indicator == indicator) |> 
+  ggplot(aes(x = date_time, y = value)) +
+  geom_line(alpha = 0.5) +
+  geom_point() +
+  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  scale_x_datetime(date_breaks = "1 hour") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+location = "window"
+indicator = "pm10"
+
+plot_window_pm10 <- dat_in %>% 
+  filter(location == location & indicator == indicator) |> 
+  ggplot(aes(x = date_time, y = value)) +
+  geom_line(alpha = 0.5) +
+  geom_point() +
+  labs(title = paste0("Location: ", location, ". ", "Indicator: ", indicator)) +
+  scale_x_datetime(date_breaks = "1 hour") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) 
+
+```
+
+**Top**
+
+```{r}
+#| column: screen
+plotly::ggplotly(plot_top_pm10)
+```
+
+**Husk**
+
+```{r}
+#| column: screen
+plotly::ggplotly(plot_husk_pm10)
+```
+
+**Window**
+
+```{r}
+#| column: screen
+plotly::ggplotly(plot_window_pm10)
 ```
 
 ## Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))
