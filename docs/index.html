@@ -60,15 +60,16 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#analysis-of-peaks" id="toc-analysis-of-peaks" class="nav-link" data-scroll-target="#analysis-of-peaks">Analysis of peaks</a>
   <ul class="collapse">
   <li><a href="#table-peaks-over-the-limit-for-hazardous-worldhealthorganization2021who" id="toc-table-peaks-over-the-limit-for-hazardous-worldhealthorganization2021who" class="nav-link" data-scroll-target="#table-peaks-over-the-limit-for-hazardous-worldhealthorganization2021who">Table: Peaks over the limit for hazardous ([worldhealthorganization2021who])</a></li>
-  <li><a href="#peaks-over-424.9-for-pm10-limit-for-hazardous-us-epa" id="toc-peaks-over-424.9-for-pm10-limit-for-hazardous-us-epa" class="nav-link" data-scroll-target="#peaks-over-424.9-for-pm10-limit-for-hazardous-us-epa">Peaks over 424.9 for pm10 (limit for hazardous (US EPA))</a></li>
-  <li><a href="#peaks-over-250.4-for-pm2.5-limit-for-hazardous-us-epa" id="toc-peaks-over-250.4-for-pm2.5-limit-for-hazardous-us-epa" class="nav-link" data-scroll-target="#peaks-over-250.4-for-pm2.5-limit-for-hazardous-us-epa">Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))</a></li>
-  <li><a href="#interactive-plots" id="toc-interactive-plots" class="nav-link" data-scroll-target="#interactive-plots">Interactive Plots</a></li>
   <li><a href="#plot-overview-as-reference" id="toc-plot-overview-as-reference" class="nav-link" data-scroll-target="#plot-overview-as-reference">Plot: Overview (as reference)</a></li>
   <li><a href="#detail-into-peak-event" id="toc-detail-into-peak-event" class="nav-link" data-scroll-target="#detail-into-peak-event">Detail into peak (event)</a>
   <ul class="collapse">
   <li><a href="#pm10-location-top" id="toc-pm10-location-top" class="nav-link" data-scroll-target="#pm10-location-top">pm10 location top</a></li>
   <li><a href="#pm25-location-top" id="toc-pm25-location-top" class="nav-link" data-scroll-target="#pm25-location-top">pm25 location top</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a>
+  <ul class="collapse">
+  <li><a href="#interactive-plots" id="toc-interactive-plots" class="nav-link" data-scroll-target="#interactive-plots">Interactive Plots</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -107,10 +108,6 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <section id="data-exploration" class="level1">
 <h1>Data Exploration</h1>
-<p>TODO List:</p>
-<ul>
-<li>Analyse peaks and exposure times based on the assumption that these are the only times that the machines are actually running and someone is inside the room</li>
-</ul>
 <section id="plot-overview" class="level2">
 <h2 class="anchored" data-anchor-id="plot-overview">Plot: Overview</h2>
 <div class="cell">
@@ -161,7 +158,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 </section>
 </section>
-<section id="analysis-of-peaks" class="level1 page-columns page-full">
+<section id="analysis-of-peaks" class="level1">
 <h1>Analysis of peaks</h1>
 <p>Questions:</p>
 <ul>
@@ -216,549 +213,11 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="peaks-over-424.9-for-pm10-limit-for-hazardous-us-epa" class="level2">
-<h2 class="anchored" data-anchor-id="peaks-over-424.9-for-pm10-limit-for-hazardous-us-epa">Peaks over 424.9 for pm10 (limit for hazardous (US EPA))</h2>
-<div class="cell">
-<div class="cell-output-display">
-<table class="table table-sm table-striped">
-<colgroup>
-<col style="width: 26%">
-<col style="width: 12%">
-<col style="width: 13%">
-<col style="width: 9%">
-<col style="width: 8%">
-<col style="width: 14%">
-<col style="width: 6%">
-<col style="width: 9%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">date_time</th>
-<th style="text-align: left;">location</th>
-<th style="text-align: left;">indicator</th>
-<th style="text-align: right;">value</th>
-<th style="text-align: left;">unit</th>
-<th style="text-align: left;">date</th>
-<th style="text-align: right;">hour</th>
-<th style="text-align: right;">minute</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">2021-04-08 05:01:52</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">514.55</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-08 05:07:32</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">477.65</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-08 05:35:53</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">447.60</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">35</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-08 06:15:34</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">517.15</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">15</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-08 06:21:14</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">502.40</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">21</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-08 22:02:23</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">871.95</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-08</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">2</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-09 12:17:26</td>
-<td style="text-align: left;">husk</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">815.65</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">17</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-09 12:23:06</td>
-<td style="text-align: left;">husk</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">733.70</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">23</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-09 12:28:46</td>
-<td style="text-align: left;">husk</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">906.40</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">28</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-09 12:40:06</td>
-<td style="text-align: left;">husk</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">697.40</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">40</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-09 12:45:46</td>
-<td style="text-align: left;">husk</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">535.10</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">45</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-09 18:24:02</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">684.75</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-09</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">24</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-10 17:50:04</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">880.15</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-10</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">50</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-10 17:55:45</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">978.50</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-10</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">55</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-10 23:07:34</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">742.75</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-10</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-10 23:13:14</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">981.35</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-10</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">13</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-10 23:24:35</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">564.70</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-10</td>
-<td style="text-align: right;">23</td>
-<td style="text-align: right;">24</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-11 06:01:27</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">726.60</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-11</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-12 13:57:37</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">775.85</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-12</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">57</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-12 14:03:17</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">915.10</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-12</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-12 20:00:28</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">592.05</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-12</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-13 09:42:34</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">874.85</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-13</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">42</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-13 09:48:15</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">730.95</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-13</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">48</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-13 12:04:19</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">708.00</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-13</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">4</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-13 12:09:59</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">913.40</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-13</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">9</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 02:43:06</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">494.15</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">43</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 02:48:47</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">578.75</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">48</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 02:54:27</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">607.15</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">54</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 03:00:07</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">819.60</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">0</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 03:11:27</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">690.10</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">11</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 11:07:42</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">675.60</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 11:13:22</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">515.20</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">13</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 12:44:05</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">611.90</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">44</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 12:49:45</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">953.95</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:09:07</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">649.05</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">9</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 14:14:48</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">662.30</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">14</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:19:29</td>
-<td style="text-align: left;">window</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">615.25</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 14:20:28</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">662.35</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:25:09</td>
-<td style="text-align: left;">window</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">634.05</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">25</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 14:26:08</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">603.00</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">26</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:30:49</td>
-<td style="text-align: left;">window</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">499.20</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">30</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 14:31:48</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">488.25</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">31</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:36:30</td>
-<td style="text-align: left;">window</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">484.25</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">36</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2021-04-14 14:37:28</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">536.25</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">37</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2021-04-14 14:43:09</td>
-<td style="text-align: left;">top</td>
-<td style="text-align: left;">pm10</td>
-<td style="text-align: right;">467.45</td>
-<td style="text-align: left;">uq_m3</td>
-<td style="text-align: left;">2021-04-14</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">43</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="peaks-over-250.4-for-pm2.5-limit-for-hazardous-us-epa" class="level2">
-<h2 class="anchored" data-anchor-id="peaks-over-250.4-for-pm2.5-limit-for-hazardous-us-epa">Peaks over 250.4 for pm2.5 (limit for hazardous (US EPA))</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 70 × 8
-   date_time           location indicator value unit  date        hour minute
-   &lt;dttm&gt;              &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;int&gt;  &lt;int&gt;
- 1 2021-04-08 04:39:11 top      pm2.5      305. uq_m3 2021-04-08     4     39
- 2 2021-04-08 04:44:51 top      pm2.5      279. uq_m3 2021-04-08     4     44
- 3 2021-04-08 04:50:31 top      pm2.5      285. uq_m3 2021-04-08     4     50
- 4 2021-04-08 04:56:11 top      pm2.5      339. uq_m3 2021-04-08     4     56
- 5 2021-04-08 05:01:52 top      pm2.5      437. uq_m3 2021-04-08     5      1
- 6 2021-04-08 05:07:32 top      pm2.5      386. uq_m3 2021-04-08     5      7
- 7 2021-04-08 05:13:12 top      pm2.5      304. uq_m3 2021-04-08     5     13
- 8 2021-04-08 05:18:52 top      pm2.5      307. uq_m3 2021-04-08     5     18
- 9 2021-04-08 05:24:32 top      pm2.5      302. uq_m3 2021-04-08     5     24
-10 2021-04-08 05:30:12 top      pm2.5      301. uq_m3 2021-04-08     5     30
-# … with 60 more rows</code></pre>
-</div>
-</div>
-</section>
-<section id="interactive-plots" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="interactive-plots">Interactive Plots</h2>
-<p><strong>only viewable in HTML version</strong></p>
-<div class="cell">
-
-</div>
-<p><strong>Top</strong></p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell column-screen">
-
-</div>
-<p><strong>Husk</strong></p>
-<div class="cell column-screen">
-
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p><strong>Window</strong></p>
-<div class="cell column-screen">
-
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-</section>
 <section id="plot-overview-as-reference" class="level2">
 <h2 class="anchored" data-anchor-id="plot-overview-as-reference">Plot: Overview (as reference)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -770,9 +229,7 @@ ul.task-list li input[type="checkbox"] {
 <li>events might be at different times</li>
 <li>separate analysis for each indicator and location</li>
 </ul>
-<section id="pm10-location-top" class="level3">
-<h3 class="anchored" data-anchor-id="pm10-location-top">pm10 location top</h3>
-<p><strong>Method for pm10 and location top</strong></p>
+<p><strong>Method for pm10 and pm2.5 and location top</strong></p>
 <ul>
 <li>Each time the pm values are above 100, we assume an “event” happens</li>
 <li>An “event” means that the mill is switched on</li>
@@ -781,6 +238,8 @@ ul.task-list li input[type="checkbox"] {
 <li>The number of minutes of exposure are calculated by multiplying each data point with 6 minutes</li>
 <li>this is because measurements are taken every 6 minutes</li>
 </ul>
+<section id="pm10-location-top" class="level3">
+<h3 class="anchored" data-anchor-id="pm10-location-top">pm10 location top</h3>
 <div class="cell">
 
 </div>
@@ -793,9 +252,12 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
+<p>See <a href="#tbl-exposure-pm10-top">Table&nbsp;2</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-exposure-pm10-top" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table&nbsp;2: Table caption me!</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">date</th>
@@ -947,13 +409,16 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</div>
 <div class="cell">
 
 </div>
-<p>The median event time (milling process) for location top and indicator pm10 is 24 minutes with a median exposure of 439. Following US EPA standards, operators are exposed to pm10 at hazardous concentration for half and hour during every milling process.</p>
+<p><a href="#tbl-exposure-pm10-top-inline">Table&nbsp;3</a>: The median event time (milling process) for location top and indicator pm10 is 24 minutes with a median exposure of 439. Following US EPA standards, operators are exposed to pm10 at hazardous concentration for half and hour during every milling process.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-exposure-pm10-top-inline" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table&nbsp;3: Table caption me!</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">location</th>
@@ -973,6 +438,7 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</div>
 </section>
 <section id="pm25-location-top" class="level3">
 <h3 class="anchored" data-anchor-id="pm25-location-top">pm25 location top</h3>
@@ -985,9 +451,12 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell">
 
 </div>
+<p>See <a href="#tbl-exposure-pm25-top">Table&nbsp;4</a>.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-exposure-pm25-top" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table&nbsp;4: Table caption me!</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">date</th>
@@ -1131,13 +600,16 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</div>
 <div class="cell">
 
 </div>
-<p>The median event time (milling process) for location top and indicator pm2.5 is 18 minutes with a median exposure of 367. Following US EPA standards, operators are exposed to pm2.5 at hazardous concentration for half and hour during every milling process.</p>
+<p><a href="#tbl-exposure-pm25-top-inline">Table&nbsp;5</a>: The median event time (milling process) for location top and indicator pm2.5 is 18 minutes with a median exposure of 367. Following US EPA standards, operators are exposed to pm2.5 at hazardous concentration for half and hour during every milling process.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div id="tbl-exposure-pm25-top-inline" class="anchored">
 <table class="table table-sm table-striped">
+<caption>Table&nbsp;5: Table caption me!</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;">location</th>
@@ -1157,7 +629,45 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 </div>
+</div>
 </section>
+</section>
+</section>
+<section id="appendix" class="level1 page-columns page-full">
+<h1>Appendix</h1>
+<section id="interactive-plots" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="interactive-plots">Interactive Plots</h2>
+<p><strong>only viewable in HTML version</strong></p>
+<div class="cell">
+
+</div>
+<p><strong>Top</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell column-screen">
+
+</div>
+<p><strong>Husk</strong></p>
+<div class="cell column-screen">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Window</strong></p>
+<div class="cell column-screen">
+
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-33-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 </section>
 

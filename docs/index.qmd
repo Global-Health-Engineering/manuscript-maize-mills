@@ -1,7 +1,9 @@
 ---
 title: "Manuscript Maize Mills"
 subtitle: "Exploratory Data Analysis"
-format: 
+format:
+  html:
+    toc: true
   docx: 
     toc: true
 editor: source
@@ -426,8 +428,11 @@ event_exposure_summary <- function(data) {
 tbl_pm10_top_event_exposure <- event_exposure_summary(dat_in_pm10_top_events) 
 ```
 
+See @tbl-exposure-pm10-top.
 
 ```{r}
+#| label: tbl-exposure-pm10-top
+#| tbl-cap: "Table caption me!"
 tbl_pm10_top_event_exposure |> 
   knitr::kable(digits = 0)
 
@@ -440,9 +445,11 @@ tbl_exposure_inline_pm10_top <- tbl_pm10_top_event_exposure |>
             median_exposure = median(mean_exposure))
 ```
 
-The median event time (milling process) for location  `r tbl_exposure_inline_pm10_top$location` and indicator `r tbl_exposure_inline_pm10_top$indicator` is `r tbl_exposure_inline_pm10_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm10_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm10_top$indicator` at hazardous concentration for half and hour during every milling process.
+@tbl-exposure-pm10-top-inline: The median event time (milling process) for location `r tbl_exposure_inline_pm10_top$location` and indicator `r tbl_exposure_inline_pm10_top$indicator` is `r tbl_exposure_inline_pm10_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm10_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm10_top$indicator` at hazardous concentration for half and hour during every milling process.
 
 ```{r}
+#| label: tbl-exposure-pm10-top-inline
+#| tbl-cap: "Table caption me!"
 tbl_exposure_inline_pm10_top  |>
   knitr::kable(digits = 0)
 ```
@@ -475,7 +482,11 @@ tbl_pm25_top_event_exposure <- event_exposure_summary(dat_in_pm25_top_events)
 ```
 
 
+See @tbl-exposure-pm25-top.
+
 ```{r}
+#| label: tbl-exposure-pm25-top
+#| tbl-cap: "Table caption me!"
 tbl_pm25_top_event_exposure |> 
   knitr::kable(digits = 0)
 
@@ -488,9 +499,11 @@ tbl_exposure_inline_pm25_top <- tbl_pm25_top_event_exposure |>
             median_exposure = median(mean_exposure))
 ```
 
-The median event time (milling process) for location  `r tbl_exposure_inline_pm25_top$location` and indicator `r tbl_exposure_inline_pm25_top$indicator` is `r tbl_exposure_inline_pm25_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm25_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm25_top$indicator` at hazardous concentration for half and hour during every milling process.
+@tbl-exposure-pm25-top-inline: The median event time (milling process) for location  `r tbl_exposure_inline_pm25_top$location` and indicator `r tbl_exposure_inline_pm25_top$indicator` is `r tbl_exposure_inline_pm25_top$median_minutes` minutes with a median exposure of `r round(tbl_exposure_inline_pm25_top$median_exposure, 0)`. Following US EPA standards, operators are exposed to `r tbl_exposure_inline_pm25_top$indicator` at hazardous concentration for half and hour during every milling process.
 
 ```{r}
+#| label: tbl-exposure-pm25-top-inline
+#| tbl-cap: "Table caption me!"
 tbl_exposure_inline_pm10_top  |>
   knitr::kable(digits = 0)
 ```
